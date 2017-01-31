@@ -1,1 +1,1 @@
-# arraymap2ga4gh
+# Examples of GA4GH schema from arrayMap
