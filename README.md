@@ -1,1 +1,1 @@
-# Examples of GA4GH schema from arrayMap
+# Implementation of the GA4GH schema based on genome profiles and metadata from arrayMap
