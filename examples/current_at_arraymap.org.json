@@ -1,0 +1,55 @@
+{
+	"_id" : ObjectId("58933ed009d3743f3382721a"),
+	"created" : ISODate("2017-02-02T13:47:12.486Z"),
+	"description" : "Chronic Lymphocytic Leukemia",
+	"characteristics" : {
+		"phenotypes" : [ ],
+		"diseases" : [
+			{
+				"ontologyTerms" : [
+					{
+						"termId" : "NCIT:C3163",
+						"termLabel" : "Chronic Lymphocytic Leukemia"
+					},
+					{
+						"termId" : "SNMI:M-98233",
+						"termLabel" : "B-cell chronic lymphocytic leukemia/small lymphocytic lymphoma"
+					},
+					{
+						"termId" : "ICDOM:9823_3",
+						"termLabel" : "B-cell chronic lymphocytic leukemia/small lymphocytic lymphoma"
+					},
+					{
+						"termId" : "ICDOT:C76",
+						"termLabel" : "ill-defined"
+					}
+				],
+				"description" : "Chronic Lymphocytic Leukemia",
+				"negatedOntologyTerms" : [ ]
+			}
+		]
+	},
+	"name" : "AM_BS_GSM322223",
+	"info" : {
+		"icdo3_morphology_code" : "9823/3",
+		"death" : "0",
+		"followup_months" : "68",
+		"icdo3_morphology" : "B-cell chronic lymphocytic leukemia/small lymphocytic lymphoma",
+		"ncit_code" : "C3163",
+		"redirected_to" : "null",
+		"age" : NumberLong(59),
+		"country" : "Sweden",
+		"geo_long" : "17.64",
+		"sex" : "female",
+		"geo_lat" : "59.86",
+		"icdo3_topography" : "ill-defined",
+		"ncit" : "Chronic Lymphocytic Leukemia",
+		"pubmed_id" : "18484635",
+		"tnm" : "T1",
+		"icdo3_topography_code" : "C76",
+		"city" : "uppsala"
+	},
+	"updated" : ISODate("2017-02-02T13:47:12.486Z"),
+	"id" : "AM_BS_GSM322223",
+	"individual_id" : "PGIND_GSM322223"
+}
