@@ -1,49 +1,49 @@
 {
-	"_id" : ObjectId("58933ed009d3743f3382721a"),
-	"created" : ISODate("2017-02-02T13:47:12.486Z"),
-	"description" : "Chronic Lymphocytic Leukemia",
+	"_id" : ObjectId("589dfa5109d374e4f3655aee"),
+	"name" : "AM_BS_GSM322223",
+	"individual_id" : "PGIND_GSM322223",
+	"id" : "AM_BS_GSM322223",
 	"characteristics" : {
-		"phenotypes" : [ ],
 		"diseases" : [
 			{
 				"ontologyTerms" : [
 					{
-						"termId" : "NCIT:C3163",
-						"termLabel" : "Chronic Lymphocytic Leukemia"
+						"termLabel" : "Chronic Lymphocytic Leukemia",
+						"termId" : "NCIT:C3163"
 					},
 					{
-						"termId" : "SNMI:M-98233",
-						"termLabel" : "B-cell chronic lymphocytic leukemia/small lymphocytic lymphoma"
+						"termLabel" : "B-cell chronic lymphocytic leukemia/small lymphocytic lymphoma",
+						"termId" : "SNMI:M-98233"
 					},
 					{
-						"termId" : "ICDOM:9823_3",
-						"termLabel" : "B-cell chronic lymphocytic leukemia/small lymphocytic lymphoma"
+						"termLabel" : "B-cell chronic lymphocytic leukemia/small lymphocytic lymphoma",
+						"termId" : "ICDOM:9823_3"
 					},
 					{
-						"termId" : "ICDOT:42",
-						"termLabel" : "hematopoietic and reticuloendothelial systems"
+						"termLabel" : "hematopoietic and reticuloendothelial systems",
+						"termId" : "ICDOT:C42"
 					}
 				],
-				"description" : "Chronic Lymphocytic Leukemia",
-				"negatedOntologyTerms" : [ ]
+				"negatedOntologyTerms" : [ ],
+				"description" : "Chronic Lymphocytic Leukemia"
 			}
-		]
+		],
+		"phenotypes" : [ ]
 	},
-	"name" : "AM_BS_GSM322223",
+	"description" : "Chronic Lymphocytic Leukemia",
 	"info" : {
-		"death" : "0",
-		"followup_months" : "68",
-		"redirected_to" : "null",
-		"age" : NumberLong(59),
-		"country" : "Sweden",
-		"geo_long" : "17.64",
-		"sex" : "female",
-		"geo_lat" : "59.86",
-		"pubmed_id" : "18484635",
 		"tnm" : "T1",
+		"death" : "0",
+		"country" : "Sweden",
+		"geo_long" : 17.64,
+		"redirected_to" : "null",
+		"followup_months" : 68,
+		"geo_lat" : 59.86,
+		"pubmed_id" : "18484635",
+		"sex" : "female",
+		"age" : 59,
 		"city" : "uppsala"
 	},
-	"updated" : ISODate("2017-02-02T13:47:12.486Z"),
-	"id" : "AM_BS_GSM322223",
-	"individual_id" : "PGIND_GSM322223"
+	"updated" : ISODate("2017-02-10T17:15:02.380Z"),
+	"created" : ISODate("2017-02-10T17:15:02.380Z")
 }
