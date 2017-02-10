@@ -20,8 +20,8 @@
 						"termLabel" : "B-cell chronic lymphocytic leukemia/small lymphocytic lymphoma"
 					},
 					{
-						"termId" : "ICDOT:C76",
-						"termLabel" : "ill-defined"
+						"termId" : "ICDOT:42",
+						"termLabel" : "hematopoietic and reticuloendothelial systems"
 					}
 				],
 				"description" : "Chronic Lymphocytic Leukemia",
@@ -42,11 +42,11 @@
 		"geo_long" : "17.64",
 		"sex" : "female",
 		"geo_lat" : "59.86",
-		"icdo3_topography" : "ill-defined",
+		"icdo3_topography" : "hematopoietic and reticuloendothelial systems",
 		"ncit" : "Chronic Lymphocytic Leukemia",
 		"pubmed_id" : "18484635",
 		"tnm" : "T1",
-		"icdo3_topography_code" : "C76",
+		"icdo3_topography_code" : "C42",
 		"city" : "uppsala"
 	},
 	"updated" : ISODate("2017-02-02T13:47:12.486Z"),
