@@ -1,0 +1,8 @@
+{
+    "_id" : ObjectId("58c668df8514e91cf9efbd93"),
+    "biosample_id" : "AM_BS_GSM497780",
+    "updated" : ISODate("2017-03-13T09:24:40.229Z"),
+    "id" : "AM_CS_GSM497780",
+    "variant_set_id" : "AM_VS_HG18",
+    "created" : ISODate("2017-03-13T09:24:40.229Z")
+}

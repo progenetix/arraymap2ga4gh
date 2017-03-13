@@ -1,0 +1,105 @@
+{
+    "_id" : ObjectId("58c668bc8514e91cf9ee76a4"),
+    "updated" : ISODate("2017-03-13T09:24:40.229Z"),
+    "attributes" : {
+        "death" : {
+            "values" : [ 
+                {
+                    "string_value" : "0"
+                }
+            ]
+        },
+        "followup_months" : {
+            "values" : [ 
+                {
+                    "double_value" : 13.2
+                }
+            ]
+        },
+        "geo_lat" : {
+            "values" : [ 
+                {
+                    "double_value" : 55.7
+                }
+            ]
+        },
+        "sex" : {
+            "values" : [ 
+                {
+                    "string_value" : ""
+                }
+            ]
+        },
+        "geo_long" : {
+            "values" : [ 
+                {
+                    "double_value" : ""
+                }
+            ]
+        },
+        "city" : {
+            "values" : [ 
+                {
+                    "string_value" : "Malmö"
+                }
+            ]
+        },
+        "redirected_to" : "null",
+        "country" : {
+            "values" : [ 
+                {
+                    "string_value" : "Sweden"
+                }
+            ]
+        },
+        "age" : {
+            "values" : [ 
+                {
+                    "double_value" : 1.66
+                }
+            ]
+        },
+        "tnm" : {
+            "values" : [ 
+                {
+                    "string_value" : ""
+                }
+            ]
+        }
+    },
+    "description" : "bladder tumor",
+    "id" : "AM_BS_GSM497780",
+    "individual_id" : "PGIND_GSM497780",
+    "external_identifiers" : [ 
+        {
+            "database" : "Pubmed",
+            "identifier" : "20406976"
+        }
+    ],
+    "created" : ISODate("2017-03-13T09:24:40.229Z"),
+    "bio_characteristics" : [ 
+        {
+            "negated_ontology_terms" : [],
+            "description" : "bladder tumor",
+            "ontology_terms" : [ 
+                {
+                    "term_id" : "NCIT:C27885",
+                    "term_label" : "Infiltrating Bladder Urothelial Carcinoma"
+                }, 
+                {
+                    "term_id" : "SNMI:M-81203",
+                    "term_label" : "Transitional cell carcinoma"
+                }, 
+                {
+                    "term_id" : "ICDOM:8120_3",
+                    "term_label" : "Transitional cell carcinoma"
+                }, 
+                {
+                    "term_id" : "ICDOT:C670",
+                    "term_label" : "urinary bladder"
+                }
+            ]
+        }
+    ],
+    "name" : "AM_BS_GSM497780"
+}

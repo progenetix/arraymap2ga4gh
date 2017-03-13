@@ -1,0 +1,6 @@
+{
+    "_id" : ObjectId("582cabe209d3740095202d9b"),
+    "dataset_id" : "arraymap",
+    "reference_set_id:" : "GRCh36",
+    "id" : "AM_VS_HG18"
+}

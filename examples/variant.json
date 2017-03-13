@@ -1,0 +1,35 @@
+{
+    "_id" : ObjectId("58c668fa8514e91cf9f0f54e"),
+    "end" : 15601929,
+    "id" : "AM_V_666019",
+    "calls" : [ 
+        {
+            "info" : {
+                "segvalue" : -1.1733
+            },
+            "genotype" : [ 
+                ".", 
+                "."
+            ],
+            "call_set_id" : "AM_CS_GSM141844"
+        }, 
+        {
+            "info" : {
+                "segvalue" : -0.5973
+            },
+            "genotype" : [ 
+                ".", 
+                "."
+            ],
+            "call_set_id" : "AM_CS_GSM1056037"
+        }
+    ],
+    "reference_name" : "4",
+    "info" : {},
+    "created" : ISODate("2017-03-13T09:23:39.549Z"),
+    "start" : 15542977,
+    "reference_bases" : ".",
+    "updated" : ISODate("2017-03-13T09:33:18.450Z"),
+    "variant_set_id" : "AM_VS_HG18",
+    "alternate_bases" : "DEL"
+}
