@@ -33,7 +33,7 @@
         "geo_long" : {
             "values" : [ 
                 {
-                    "double_value" : ""
+                    "double_value" : 13.19
                 }
             ]
         },
