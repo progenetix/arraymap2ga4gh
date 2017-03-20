@@ -1,105 +1,95 @@
 {
-    "_id" : ObjectId("58c668bc8514e91cf9ee76a4"),
-    "updated" : ISODate("2017-03-13T09:24:40.229Z"),
-    "attributes" : {
-        "death" : {
-            "values" : [ 
-                {
-                    "string_value" : "0"
-                }
-            ]
-        },
-        "followup_months" : {
-            "values" : [ 
-                {
-                    "double_value" : 13.2
-                }
-            ]
-        },
-        "geo_lat" : {
-            "values" : [ 
-                {
-                    "double_value" : 55.7
-                }
-            ]
-        },
-        "sex" : {
-            "values" : [ 
-                {
-                    "string_value" : ""
-                }
-            ]
-        },
-        "geo_long" : {
-            "values" : [ 
-                {
-                    "double_value" : 13.19
-                }
-            ]
-        },
-        "city" : {
-            "values" : [ 
-                {
-                    "string_value" : "Malmö"
-                }
-            ]
-        },
-        "redirected_to" : "null",
-        "country" : {
-            "values" : [ 
-                {
-                    "string_value" : "Sweden"
-                }
-            ]
-        },
-        "age" : {
-            "values" : [ 
-                {
-                    "double_value" : 1.66
-                }
-            ]
-        },
-        "tnm" : {
-            "values" : [ 
-                {
-                    "string_value" : ""
-                }
-            ]
-        }
-    },
-    "description" : "bladder tumor",
-    "id" : "AM_BS_GSM497780",
-    "individual_id" : "PGIND_GSM497780",
-    "external_identifiers" : [ 
-        {
-            "database" : "Pubmed",
-            "identifier" : "20406976"
-        }
-    ],
-    "created" : ISODate("2017-03-13T09:24:40.229Z"),
-    "bio_characteristics" : [ 
-        {
-            "negated_ontology_terms" : [],
-            "description" : "bladder tumor",
-            "ontology_terms" : [ 
-                {
-                    "term_id" : "NCIT:C27885",
-                    "term_label" : "Infiltrating Bladder Urothelial Carcinoma"
-                }, 
-                {
-                    "term_id" : "SNMI:M-81203",
-                    "term_label" : "Transitional cell carcinoma"
-                }, 
-                {
-                    "term_id" : "ICDOM:8120_3",
-                    "term_label" : "Transitional cell carcinoma"
-                }, 
-                {
-                    "term_id" : "ICDOT:C670",
-                    "term_label" : "urinary bladder"
-                }
-            ]
-        }
-    ],
-    "name" : "AM_BS_GSM497780"
+	"id" : "PGX_AM_BS_GSM510730",
+	"individual_id" : "PGX_IND_GSM510730",
+	"name" : "PGX_AM_BS_GSM510730",
+	"description" : "breast carcinoma",
+	"bio_characteristics" : [
+		{
+			"description" : "breast carcinoma",
+			"ontology_terms" : [
+				{
+					"term_id" : "NCIT:C4017",
+					"term_label" : "Ductal Breast Carcinoma"
+				},
+				{
+					"term_id" : "SNMI:M-85003",
+					"term_label" : "invasive carcinoma of no special type"
+				},
+				{
+					"term_id" : "PGX:ICDOM:8500_3",
+					"term_label" : "invasive carcinoma of no special type"
+				},
+				{
+					"term_id" : "PGX:ICDOT:C50",
+					"term_label" : "breast"
+				},
+				{
+					"term_id" : "PGX:SEER:26000",
+					"term_label" : "Breast"
+				}
+			],
+			"negated_ontology_terms" : [ ],
+		}
+	],
+	"individual_age_at_collection" : "P47Y",
+	"attributes" : {
+		"tnm" : {
+			"values" : [
+				{
+					"string_value" : "T1N0M0"
+				}
+			]
+		},
+		"death" : {
+			"values" : [
+				{
+					"string_value" : "0"
+				}
+			]
+		},
+		"country" : {
+			"values" : [
+				{
+					"string_value" : "Norway"
+				}
+			]
+		},
+		"city" : {
+			"values" : [
+				{
+					"string_value" : "Oslo"
+				}
+			]
+		},
+		"geo_lat" : {
+			"values" : [
+				{
+					"double_value" : 59.91
+				}
+			]
+		},
+		"geo_long" : {
+			"values" : [
+				{
+					"double_value" : 10.75
+				}
+			]
+		},
+	},
+	"external_identifiers" : [
+		{
+			"database" : "Pubmed",
+			"identifier" : "20592421"
+		},
+		{
+			"database" : "GEO",
+			"identifier" : "GSM510730"
+		},
+		{
+			"database" : "GEO",
+			"identifier" : "GSE20394"
+		}
+	],
+	"created" : ISODate("2017-03-20T08:37:07.771Z"),
+	"updated" : ISODate("2017-03-20T08:37:07.771Z"),
 }
