@@ -1,49 +1,17 @@
 {
-	"_id" : ObjectId("589dfa5109d374e4f3655aee"),
-	"name" : "AM_BS_GSM322223",
-	"individual_id" : "PGIND_GSM322223",
-	"id" : "AM_BS_GSM322223",
-	"characteristics" : {
-		"diseases" : [
-			{
-				"ontologyTerms" : [
-					{
-						"termLabel" : "Chronic Lymphocytic Leukemia",
-						"termId" : "NCIT:C3163"
-					},
-					{
-						"termLabel" : "B-cell chronic lymphocytic leukemia/small lymphocytic lymphoma",
-						"termId" : "SNMI:M-98233"
-					},
-					{
-						"termLabel" : "B-cell chronic lymphocytic leukemia/small lymphocytic lymphoma",
-						"termId" : "ICDOM:9823_3"
-					},
-					{
-						"termLabel" : "hematopoietic and reticuloendothelial systems",
-						"termId" : "ICDOT:C42"
-					}
-				],
-				"negatedOntologyTerms" : [ ],
-				"description" : "Chronic Lymphocytic Leukemia"
-			}
-		],
-		"phenotypes" : [ ]
+	"id" : "PGX_IND_GSM510730",
+	"species" : {
+		"term_id" : "NCBITaxon:9606",
+		"term_label" : "Homo sapiens"
 	},
-	"description" : "Chronic Lymphocytic Leukemia",
-	"info" : {
-		"tnm" : "T1",
-		"death" : "0",
-		"country" : "Sweden",
-		"geo_long" : 17.64,
-		"redirected_to" : "null",
-		"followup_months" : 68,
-		"geo_lat" : 59.86,
-		"pubmed_id" : "18484635",
-		"sex" : "female",
-		"age" : 59,
-		"city" : "uppsala"
+	"sex" : {
+		"term_id" : "PATO:0020002",
+		"term_label" : "female genotypic sex"
 	},
-	"updated" : ISODate("2017-02-10T17:15:02.380Z"),
-	"created" : ISODate("2017-02-10T17:15:02.380Z")
+	"description" : "individual from breast carcinoma study",
+	"name" : "null",
+	"bio_characteristics" : "null",
+	"attributes" : "null",
+	"created" : ISODate("2017-03-20T08:37:07.771Z"),
+	"updated" : ISODate("2017-03-20T08:37:07.771Z"),
 }
