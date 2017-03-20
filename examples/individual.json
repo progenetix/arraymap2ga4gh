@@ -1,5 +1,6 @@
 {
-	"id" : "PGX_IND_GSM510730",
+	"id" : "PGX_IND_GSM847445",
+	"name" : "PGX_IND_GSM847445_edited",
 	"species" : {
 		"term_id" : "NCBITaxon:9606",
 		"term_label" : "Homo sapiens"
@@ -8,10 +9,28 @@
 		"term_id" : "PATO:0020002",
 		"term_label" : "female genotypic sex"
 	},
-	"description" : "individual from breast carcinoma study",
-	"name" : "null",
-	"bio_characteristics" : "null",
-	"attributes" : "null",
+	"description" : "individual with Li-Fraumeni syndrome",
+	"bio_characteristics" : [
+		{
+			"description" : "Li-Fraumeni syndrome carrier",
+			"ontology_terms" : [
+				{
+					"term_id" : "DOID:3012",
+					"term_label" : "Li-Fraumeni syndrome",
+				},
+			],
+		},
+		{
+			"description" : "adrenocortical carcinoma",
+			"ontology_terms" : [
+				{
+					"term_label" : "Adrenal Cortex Carcinoma",
+					"term_id" : "NCIT:C9325",
+				},
+			],
+		}
+	],
+	"attributes" : null,
 	"created" : ISODate("2017-03-20T08:37:07.771Z"),
 	"updated" : ISODate("2017-03-20T08:37:07.771Z"),
 }
