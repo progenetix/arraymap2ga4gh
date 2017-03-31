@@ -47,34 +47,11 @@
 				}
 			]
 		},
-		"country" : {
-			"values" : [
-				{
-					"string_value" : "Norway"
-				}
-			]
-		},
-		"city" : {
-			"values" : [
-				{
-					"string_value" : "Oslo"
-				}
-			]
-		},
-		"geo_lat" : {
-			"values" : [
-				{
-					"double_value" : 59.91
-				}
-			]
-		},
-		"geo_long" : {
-			"values" : [
-				{
-					"double_value" : 10.75
-				}
-			]
-		},
+	"location" : {
+		"geo_label" : "Oslo, Norway",
+		"latitude" : 59.91,
+		"longitude" : 10.75,
+		"geo_precision" : "city"
 	},
 	"external_identifiers" : [
 		{
