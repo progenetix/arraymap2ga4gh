@@ -11,9 +11,9 @@ Structure:
 
 ### How to Use the data
 
-The data is in JSON format, and you can use MongoDB for easy import and manipulation
+The data is in JSON format, you can use MongoDB for easy import and manipulation
 
-You can find the download and installation instructions of the community version [here](https://www.mongodb.com/download-center#community).
+The download and installation instructions of the community version of MongoDB can be found [here](https://www.mongodb.com/download-center#community).
 
 To import a JSON file, you can run the following from command line
 ```
