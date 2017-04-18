@@ -8,3 +8,21 @@ Structure:
 
 * data: JSON dumps of data from the arraymap2ga4gh conversion of arrayMap collections (subsets)
 * examples: JSON-nice single/few selected biosamples etc. to show value encodings...
+
+### How to Use the data
+
+The data is in JSON format, and you can use MongoDB for easy import and manipulation
+
+You can find the download and installation instructions of the community version [here](https://www.mongodb.com/download-center#community).
+
+To import a JSON file, you can run the following from command line
+```
+mongoimport --db test --collection arraymap --drop --file ~/data/individual.json
+```
+
+To query from MongoDB shell
+```
+use test
+db.arraymap.find({'attributes.country.values.string_value' : 'United Kingdom'})
+db.arraymap.find({'description' : {'$regex' : 'breast'}})
+```
