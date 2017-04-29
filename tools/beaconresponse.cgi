@@ -13,11 +13,20 @@ use MongoDB::MongoClient;
 
 =pod
 
+This script implements a Beacon-style API against a GA4GH schema compatible set of MongoDB collections. Each of these collections contains records of a GA4GH core data type. The current implementation makes use of the
+
+	* variants
+	* biosamples
+	* callsets
+	
+...collections, where a combination of queries against a subset of of "Biosample" and "Variant" records' attributes leads to a response with count information about the mached data.
+
 Example use, command line:
 
 perl beaconresponse.cgi variants.reference_name=chr9 variants.variant_type=DEL variants.start=20000000 variants.start=21984490 variants.end=21984490 variants.end=25000000 biosample.bio_characteristics.ontology_terms.term_id=NCIT:C3058
 
-Example use,
+Example use, as server CGI:
+
 http://arraymap.org/beaconresponse/?variants.reference_name=chr9&variants.variant_type=DEL&variants.start=20000000&variants.start=21984490&variants.end=21984490&variants.end=25000000&biosample.bio_characteristics.ontology_terms.term_id=NCIT:C3058
 
 =cut
