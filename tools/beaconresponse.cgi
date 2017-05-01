@@ -155,11 +155,11 @@ Atributes not used (yet):
   my $qPar            =   {};
 
   foreach (qw(
-  id
-  bio_characteristics.ontology_terms.term_id
-  )) {
-  $qPar->{$_}         =   [ param('biosample.'.$_) ];
-  };
+
+    id
+    bio_characteristics.ontology_terms.term_id
+
+  )) { $qPar->{$_}    =   [ param('biosample.'.$_) ] }
 
   return $qPar;
 
