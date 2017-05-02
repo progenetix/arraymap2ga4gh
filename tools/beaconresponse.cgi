@@ -114,11 +114,15 @@ $counts->{bs_var_matched} =   scalar(@{ $csBiosampleIds });
 
 ###############################################################################
 
+# TODO: The response has to be extended and also to be adapted to the "Dataset" option.
 my $beaconResponse    =   {
   beaconId            =>  "arraymap-beacon",
   alleleRequest       =>  $varQ,
   biosampleRequest    =>  $biosQ,
   datasetAlleleResponses  =>  1 * $counts->{bs_var_matched},
+  frequency           =>  1* (sprintf "%.4f",  $counts->{bs_var_matched} / $counts->{bs_all}),
+  callCount           =>  $counts->{cs_matched},
+  sampleCount         =>  1 * $counts->{bs_var_matched},
   error               =>  $errorMessage,
   info                =>  $counts->{cs_matched}.' / '.$counts->{cs_all}.' matched callsets for '.$counts->{var_all}.' variants. Out of '.$counts->{bs_all}.' biosamples in the database, '.$counts->{bs_matched}.' matched the biosample query; of those, '.$counts->{bs_var_matched}.' had the variant.',
 };
