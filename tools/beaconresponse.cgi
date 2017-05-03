@@ -54,9 +54,7 @@ my $dbconn            =   MongoDB::MongoClient->new()->get_database( $db );
 
 =pod
 
-The ids of biosamples which match (designated) metadata criteria are retrieved.
-This can be, as in the first example, biosamples with an "Biocharacteristic"
-containing a specific ontology term.
+The ids of biosamples matching (designated) metadata criteria are retrieved. This can be, as in the first example, biosamples with an "characteristic" containing a specific ontology term.
 
 =cut
 
@@ -257,19 +255,11 @@ sub _checkParameters {
   my $errorMessage;
 
   if ($qPar->{start}->[0] !~ /^\d+?$/) {
-<<<<<<< Updated upstream
-  $errorMessage       .=    '"variants.start" did not contain a numeric value. ';
-  }
-
-  if ($qPar->{reference_name} !~ /^(?:(?:(?:1|2)?\d)|x|y)$/i) {
-  $errorMessage       .=    '"variants.reference_name" did not contain a valid value (e.g. "chr17" "8", "X"). ';
-=======
     $errorMessage     .=    '"variants.start" did not contain a numeric value. ';
   }
 
   if ($qPar->{reference_name} !~ /^(?:(?:(?:1|2)?\d)|x|y)$/i) {
     $errorMessage     .=    '"variants.reference_name" did not contain a valid value (e.g. "chr17" "8", "X"). ';
->>>>>>> Stashed changes
   }
 
   if (
@@ -277,11 +267,7 @@ sub _checkParameters {
   &&
   ($qPar->{alternate_bases} !~ /^[ATGC]+?$/)
   ) {
-<<<<<<< Updated upstream
-  $errorMessage       .=    'There was no valid value for either "variants.variant_type" or "variants.alternate_bases".';
-=======
     $errorMessage     .=    'There was no valid value for either "variants.variant_type" or "variants.alternate_bases".';
->>>>>>> Stashed changes
   }
 
   return $errorMessage;
