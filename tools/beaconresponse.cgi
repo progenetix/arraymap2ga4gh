@@ -231,20 +231,20 @@ sub _normVariantParams {
 
 sub _normQueryStartEnd {
 
-  my ($qStart, $qEnd) =   @_;
+  my ($start, $end) =   @_;
 
-  if ($qStart->[1] !~ /^\d+?$/) { $qStart->[1]  = $qStart->[0] }
-  if ($qEnd->[0] !~ /^\d+?$/)   { $qEnd->[0]    = $qStart->[1] }
-  if ($qEnd->[1] !~ /^\d+?$/)   { $qEnd->[1]    = $qEnd->[0] }
+  if ($start->[1] !~ /^\d+?$/) { $start->[1] = $start->[0] }
+  if ($end->[0]   !~ /^\d+?$/) { $end->[0]   = $start->[1] }
+  if ($end->[1]   !~ /^\d+?$/) { $end->[1]   = $end->[0]   }
 
-  $qStart->[0]        *=  1;
-  $qStart->[1]        *=  1;
-  $qEnd->[0]          *=  1;
-  $qEnd->[1]          *=  1;
-  $qStart             =   [sort { $a <=> $b } @$qStart];
-  $qEnd               =   [sort { $a <=> $b } @$qEnd];
+  $start->[0]         *=  1;
+  $start->[1]         *=  1;
+  $end->[0]           *=  1;
+  $end->[1]           *=  1;
+  $start              =   [sort { $a <=> $b } @$start];
+  $end                =   [sort { $a <=> $b } @$end];
 
-  return ($qStart, $qEnd);
+  return ($start, $end);
 
 }
 
@@ -257,11 +257,19 @@ sub _checkParameters {
   my $errorMessage;
 
   if ($qPar->{start}->[0] !~ /^\d+?$/) {
+<<<<<<< Updated upstream
   $errorMessage       .=    '"variants.start" did not contain a numeric value. ';
   }
 
   if ($qPar->{reference_name} !~ /^(?:(?:(?:1|2)?\d)|x|y)$/i) {
   $errorMessage       .=    '"variants.reference_name" did not contain a valid value (e.g. "chr17" "8", "X"). ';
+=======
+    $errorMessage     .=    '"variants.start" did not contain a numeric value. ';
+  }
+
+  if ($qPar->{reference_name} !~ /^(?:(?:(?:1|2)?\d)|x|y)$/i) {
+    $errorMessage     .=    '"variants.reference_name" did not contain a valid value (e.g. "chr17" "8", "X"). ';
+>>>>>>> Stashed changes
   }
 
   if (
@@ -269,7 +277,11 @@ sub _checkParameters {
   &&
   ($qPar->{alternate_bases} !~ /^[ATGC]+?$/)
   ) {
+<<<<<<< Updated upstream
   $errorMessage       .=    'There was no valid value for either "variants.variant_type" or "variants.alternate_bases".';
+=======
+    $errorMessage     .=    'There was no valid value for either "variants.variant_type" or "variants.alternate_bases".';
+>>>>>>> Stashed changes
   }
 
   return $errorMessage;
@@ -290,7 +302,7 @@ sub _createBiosampleQuery {
 
   foreach (grep{ /.../ } @{ $qPar->{$qKey} } ) {
 
-  push(@thisQlist, { $qKey => $_ } );
+    push(@thisQlist, { $qKey => $_ } );
 
   }
 
