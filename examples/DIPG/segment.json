@@ -1,0 +1,93 @@
+{
+    "_id" : ObjectId("5911ad7a8514e962d95fbb7a"),
+    "calls" : [ 
+        {
+            "genotype" : [ 
+                ".", 
+                "."
+            ],
+            "call_set_id" : "DIPG_CS_CN_0142",
+            "info" : {
+                "segvalue" : 0.099768267510894
+            }
+        }, 
+        {
+            "genotype" : [ 
+                ".", 
+                "."
+            ],
+            "call_set_id" : "DIPG_CS_CN_0620",
+            "info" : {
+                "segvalue" : -0.45400942651645
+            }
+        }, 
+        {
+            "genotype" : [ 
+                ".", 
+                "."
+            ],
+            "call_set_id" : "DIPG_CS_CN_0266",
+            "info" : {
+                "segvalue" : -0.398077609546691
+            }
+        }, 
+        {
+            "genotype" : [ 
+                ".", 
+                "."
+            ],
+            "call_set_id" : "DIPG_CS_CN_0375",
+            "info" : {
+                "segvalue" : 0.150329948449119
+            }
+        }, 
+        {
+            "genotype" : [ 
+                ".", 
+                "."
+            ],
+            "call_set_id" : "DIPG_CS_CN_0328",
+            "info" : {
+                "segvalue" : 0.0891056216812055
+            }
+        }, 
+        {
+            "genotype" : [ 
+                ".", 
+                "."
+            ],
+            "call_set_id" : "DIPG_CS_CN_0901",
+            "info" : {
+                "segvalue" : -0.0368
+            }
+        }, 
+        {
+            "genotype" : [ 
+                ".", 
+                "."
+            ],
+            "call_set_id" : "DIPG_CS_CN_0413",
+            "info" : {
+                "segvalue" : 0.0870687157650675
+            }
+        }
+    ],
+    "end" : 34862262,
+    "alternate_bases" : "<DUP>",
+    "start" : 34125189,
+    "created" : ISODate("2017-05-09T11:50:12.290Z"),
+    "variant_set_id" : "HG18",
+    "variant_type" : "DUP",
+    "cipos" : [ 
+        -1000, 
+        1000
+    ],
+    "reference_bases" : ".",
+    "ciend" : [ 
+        -1000, 
+        1000
+    ],
+    "id" : "DIPG_V_CN_63373",
+    "updated" : ISODate("2017-05-09T11:50:44.849Z"),
+    "reference_name" : "21"
+}

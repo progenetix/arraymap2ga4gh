@@ -1,0 +1,133 @@
+{
+    "_id" : ObjectId("5911ad7a8514e962d95fbee9"),
+    "calls" : [ 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_0522"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_0541"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_0549"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_0576"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_0434"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_0183"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_0448"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_0829"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_0539"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_1019"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_0399"
+        }, 
+        {
+            "genotype" : [ 
+                "C"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_0182"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_0483"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_1023"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_1020"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_0179"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_0437"
+        }, 
+        {
+            "genotype" : [ 
+                "A"
+            ],
+            "call_set_id" : "DIPG_CS_MAF_0203"
+        }
+    ],
+    "end" : 226252155,
+    "alternate_bases" : [ 
+        "A", 
+        "C"
+    ],
+    "start" : 226252155,
+    "created" : ISODate("2017-05-09T11:50:50.601Z"),
+    "variant_set_id" : "HG18",
+    "cipos" : [ 
+        -1000, 
+        1000
+    ],
+    "reference_bases" : "G",
+    "updated" : ISODate("2017-05-09T11:50:50.601Z"),
+    "id" : "DIPG_V_MAF_3",
+    "ciend" : [ 
+        -1000, 
+        1000
+    ],
+    "reference_name" : "1"
+}

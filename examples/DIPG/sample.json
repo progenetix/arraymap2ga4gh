@@ -1,0 +1,98 @@
+{
+    "_id" : ObjectId("58f8b0d98514e9774fc2f616"),
+    "external_identifiers" : [],
+    "attributes" : {
+        "status" : {
+            "values" : [ 
+                {
+                    "string_value" : "1"
+                }
+            ]
+        },
+        "location" : {
+            "values" : [ 
+                {
+                    "string_value" : "Brainstem"
+                }
+            ]
+        },
+        "mgmt" : {
+            "values" : [ 
+                {
+                    "string_value" : null
+                }
+            ]
+        },
+        "months" : {
+            "values" : [ 
+                {
+                    "double_value" : 16.0
+                }
+            ]
+        },
+        "histone" : {
+            "values" : [ 
+                {
+                    "string_value" : "H3.3_K27M"
+                }
+            ]
+        },
+        "age" : {
+            "values" : [ 
+                {
+                    "double_value" : 12.0
+                }
+            ]
+        },
+        "grade" : {
+            "values" : [ 
+                {
+                    "string_value" : "4"
+                }
+            ]
+        },
+        "methylation" : {
+            "values" : [ 
+                {
+                    "string_value" : "NA"
+                }
+            ]
+        },
+        "sampling" : {
+            "values" : [ 
+                {
+                    "string_value" : "Post"
+                }
+            ]
+        }
+    },
+    "created" : ISODate("2017-04-20T13:00:08.666Z"),
+    "name" : "pHGG_META_0324",
+    "description" : "diffuse intrinsic pontine glioma, paediatric, high grade",
+    "id" : "DIPG_BS_0324",
+    "bio_characteristics" : [ 
+        {
+            "description" : "Diffuse Intrinsic Pontine Glioma",
+            "ontology_terms" : [ 
+                {
+                    "term_label" : "Glioma",
+                    "term_id" : "NCIT:C3059"
+                }, 
+                {
+                    "term_label" : "Glioma NOS",
+                    "term_id" : "SNMI:M-93803"
+                }, 
+                {
+                    "term_label" : "Glioma NOS",
+                    "term_id" : "DIPG:ICDOM:93803_3"
+                }, 
+                {
+                    "term_label" : "Brainstem",
+                    "term_id" : "PGX:ICDOT:C717"
+                }
+            ],
+            "negated_ontology_terms" : []
+        }
+    ],
+    "individual_id" : "DIPG_IND_0324"
+}
