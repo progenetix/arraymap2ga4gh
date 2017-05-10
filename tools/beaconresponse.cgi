@@ -287,14 +287,14 @@ sub _createBiosampleQuery {
 
   foreach my $qKey (keys %{$qPar}) {
 
-  my $thisQobj        =   {};
-  my @thisQlist;
+    my $thisQobj      =   {};
+    my @thisQlist;
 
-  foreach (grep{ /.../ } @{ $qPar->{$qKey} } ) {
+    foreach (grep{ /.../ } @{ $qPar->{$qKey} } ) {
 
-    push(@thisQlist, { $qKey => $_ } );
+      push(@thisQlist, { $qKey => $_ } );
 
-  }
+    }
 
 =pod
 
