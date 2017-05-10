@@ -27,9 +27,12 @@ http://arraymap.org/beaconresponse/?variants.reference_name=chr9&variants.varian
 
 my $db                =   'arraymap_ga4gh';
 my $varColl           =   'variants';
+my $cnvColl           =   'variants';
 my $sampleColl        =   'biosamples';
 my $varQpar           =   {};
 my $varQ              =   {};
+my $cnvQpar           =   {};
+my $cnvQ              =   {};
 my $biosQpar          =   {};
 my $biosQ             =   {};
 
