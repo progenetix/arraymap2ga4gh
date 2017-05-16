@@ -37,7 +37,10 @@ my $biosQ             =   {};
 
 $varQpar              =   _getVariantParams();
 $varQpar              =   _normVariantParams($varQpar);
+$varQ                 =   _createVariantQuery($varQpar);
+
 $biosQpar             =   _getBiosampleParams();
+$biosQ                =   _createBiosampleQuery($biosQpar);
 
 # catching input errors #######################################################
 
@@ -58,13 +61,11 @@ The ids of biosamples matching (designated) metadata criteria are retrieved. Thi
 
 =cut
 
-$biosQ                =   _createBiosampleQuery($biosQpar);
-
-# counting all variants
+# getting the number of all biosamples in the collection
 $dbCall               =   $dbconn->run_command({"count" => 'biosamples'});
 $counts->{bs_all}     =   $dbCall->{n};
 
-# getting and  counting all calsset ids with matching variants
+# getting and  counting the ids of all biosamples which match the biosample query
 $dbCall               =   $dbconn->run_command([
                             "distinct"  =>  'biosamples',
                             "key"       =>  'id',
@@ -75,9 +76,7 @@ $counts->{bs_matched} =   scalar(@{ $biosampleIds });
 
 ###############################################################################
 
-$varQ                 =   _createVariantQuery($varQpar);
-
-# counting all variants
+# counting all variants in the variant collection
 $dbCall               =   $dbconn->run_command({"count" => 'variants'});
 $counts->{var_all}    =   $dbCall->{n};
 
@@ -98,18 +97,49 @@ $dbCall               =   $dbconn->run_command([
 my $callsetIds        =   $dbCall->{values};
 $counts->{cs_matched} =   scalar(@{ $callsetIds });
 
+###############################################################################
+
 # getting and counting all biosample ids from those callsets,
 # which are both fulfilling the biosample metadata query and are listed
 # in the matched callsets
-$dbCall               =   $dbconn->run_command([
+
+my $bsQvarQmatchedQ   =   {};
+my @bsQvarQlist       =   {};
+my $csBiosampleIds    =   [];
+
+if (grep{ /.../ } keys %{ $biosQ } ) {
+  push(@bsQvarQlist, { biosample_id => { '$in' => $biosampleIds } } );
+}
+if (grep{ /.../ } keys %{ $varQ } ) {
+  push(@bsQvarQlist, { id => { '$in' => $callsetIds } } );
+}
+
+if (@bsQvarQlist > 1) {
+  $bsQvarQmatchedQ    =   { '$and' => [ @bsQvarQlist ] };
+} elsif (@bsQvarQlist == 1) {
+  $bsQvarQmatchedQ    =   @bsQvarQlist[0];
+}
+
+# sanity check; if biosample query but no ids => no natch
+if (
+  (grep{ /.../ } keys %{ $biosQ } )
+  &&
+  ($counts->{bs_matched} < 1)
+) {
+
+  $csBiosampleIds     =   [];
+
+} else {
+
+  $dbCall             =   $dbconn->run_command([
                             "distinct"  =>  'callsets',
                             "key"       =>  'biosample_id',
-                            "query"     =>  { '$and' => [
-                                              { biosample_id => { '$in' => $biosampleIds } },
-                                              { id => { '$in' => $callsetIds } },
-                                            ]},
+                            "query"     =>  $bsQvarQmatchedQ,
                           ]);
-my $csBiosampleIds    =   $dbCall->{values};
+  $csBiosampleIds     =   $dbCall->{values};
+
+}
+
 $counts->{bs_var_matched} =   scalar(@{ $csBiosampleIds });
 
 ###############################################################################
@@ -287,14 +317,14 @@ sub _createBiosampleQuery {
 
   foreach my $qKey (keys %{$qPar}) {
 
-  my $thisQobj        =   {};
-  my @thisQlist;
+    my $thisQobj      =   {};
+    my @thisQlist;
 
-  foreach (grep{ /.../ } @{ $qPar->{$qKey} } ) {
+    foreach (grep{ /.../ } @{ $qPar->{$qKey} } ) {
 
-    push(@thisQlist, { $qKey => $_ } );
+      push(@thisQlist, { $qKey => $_ } );
 
-  }
+    }
 
 =pod
 
@@ -328,7 +358,6 @@ The construction of the query object depends on the detected parameters:
 sub _createVariantQuery {
 
   my $qPar            =   $_[0];
-
   my $qObj            =   {};
 
   if ($qPar->{variant_type} =~ /^D(?:UP)|(?:EL)$/) {
@@ -359,5 +388,7 @@ sub _createVariantQuery {
   return $qObj;
 
 }
+
+################################################################################
 
 1;
