@@ -1,8 +1,7 @@
 {
-    "_id" : ObjectId("5911ad7b8514e962d95fc2fb"),
-    "biosample_id" : "DIPG_BS_0063",
-    "created" : ISODate("2017-05-09T11:50:50.602Z"),
-    "variant_set_id" : "HG18",
-    "id" : "DIPG_CS_MAF_0063",
-    "updated" : ISODate("2017-05-09T11:50:50.602Z")
+    "biosample_id": "DIPG_BS_0063",
+    "created": "2017-05-16T09:05:14.701000",
+    "id": "DIPG_CS_MAF_0063",
+    "updated": "2017-05-16T09:05:14.701000",
+    "variant_set_id": "HG18"
 }

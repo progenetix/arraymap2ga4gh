@@ -1,18 +1,17 @@
 {
-    "_id" : ObjectId("58f8b0d98514e9774fc2f1df"),
-    "updated" : null,
-    "attributes" : null,
-    "created" : ISODate("2017-04-20T13:00:08.671Z"),
-    "name" : "pHGG_META_0530",
-    "description" : "diffuse intrinsic pontine glioma, paediatric, high grade",
-    "id" : "DIPG_IND_0530",
-    "bio_characteristics" : null,
-    "species" : {
-        "term_label" : "Homo sapiens",
-        "term_id" : "NCBITaxon:9606"
+    "attributes": null,
+    "bio_characteristics": null,
+    "created": "2017-04-20T13:00:08.671000",
+    "description": "diffuse intrinsic pontine glioma, paediatric, high grade",
+    "id": "DIPG_IND_0530",
+    "name": "pHGG_META_0530",
+    "sex": {
+        "term_id": "PATO:0020001",
+        "term_label": "male genotypic sex"
     },
-    "sex" : {
-        "term_label" : "male genotypic sex",
-        "term_id" : "PATO:0020001"
-    }
+    "species": {
+        "term_id": "NCBITaxon:9606",
+        "term_label": "Homo sapiens"
+    },
+    "updated": null
 }
