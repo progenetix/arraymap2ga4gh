@@ -15,9 +15,15 @@ The data is in JSON format, you can use MongoDB for easy import and manipulation
 
 The download and installation instructions of the community version of MongoDB can be found [here](https://www.mongodb.com/download-center#community).
 
-To import a JSON file, you can run the following from command line
+Each zip file contains not only the demo data in json, but also a shell script to import the data into json.
+You can simply run:
 ```
-mongoimport --db test --collection arraymap --drop --file ~/data/individual.json
+sh importdb.sh
+```
+
+To import a single JSON file, you can run the following from command line
+```
+mongoimport --db test --collection arraymap --drop --jsonArray --file ~/data/individual.json
 ```
 
 To query from MongoDB shell
