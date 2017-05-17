@@ -1,12 +1,5 @@
 {
     "attributes": {
-        "age": {
-            "values": [
-                {
-                    "double_value": 12.0
-                }
-            ]
-        },
         "grade": {
             "values": [
                 {
@@ -88,10 +81,17 @@
             ]
         }
     ],
-    "created": "2017-04-20T13:00:08.666000",
+    "created": "2017-05-17T15:21:00.254000",
     "description": "diffuse intrinsic pontine glioma, paediatric, high grade",
     "external_identifiers": [],
     "id": "DIPG_BS_0324",
+    "individual_age_at_collection": {
+        "age": "P12Y0M",
+        "age_class": {
+            "term": "Juvenile onset",
+            "term_id": "HP:0003621"
+        }
+    },
     "individual_id": "DIPG_IND_0324",
     "name": "pHGG_META_0324"
 }
