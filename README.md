@@ -26,5 +26,5 @@ To query from MongoDB shell
 use test
 db.biosamples.find({'attributes.country.values.string_value' : 'United Kingdom'})
 db.biosamples.findOne({'description' : {'$regex' : 'breast'}})
-db.variants.find({alternate_bases:"DEL", reference_name:"17", start:{$gte:30000000}, end:{$lte:31000000}},{"calls.call_set_id":1})
+db.variants.find({variant_type:"DEL", reference_name:"17", start:{$gte:30000000}, end:{$lte:31000000}},{"calls.call_set_id":1})
 ```
