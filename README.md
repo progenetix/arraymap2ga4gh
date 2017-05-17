@@ -7,7 +7,7 @@ Data & schemas represented here are not kept in a stable/versioned status, but a
 Structure:
 
 * data: JSON dumps of data from the arraymap2ga4gh conversion of arrayMap collections (subsets)
-* examples: JSON-nice single/few selected biosamples etc. to show value encodings...
+* examples: JSON-nice single/few selected records (biosamples, variants ...) etc. to show value encodings...
 
 ### How to Use the data
 
@@ -21,14 +21,10 @@ You can simply run:
 sh importdb.sh
 ```
 
-To import a single JSON file, you can run the following from command line
-```
-mongoimport --db test --collection arraymap --drop --jsonArray --file ~/data/individual.json
-```
-
 To query from MongoDB shell
 ```
 use test
-db.arraymap.find({'attributes.country.values.string_value' : 'United Kingdom'})
-db.arraymap.find({'description' : {'$regex' : 'breast'}})
+db.biosamples.find({'attributes.country.values.string_value' : 'United Kingdom'})
+db.biosamples.findOne({'description' : {'$regex' : 'breast'}})
+db.variants.find({alternate_bases:"DEL", reference_name:"17", start:{$gte:30000000}, end:{$lte:31000000}},{"calls.call_set_id":1})
 ```
