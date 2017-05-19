@@ -9,7 +9,7 @@ Structure:
 * data: JSON dumps of data from the arraymap2ga4gh conversion of arrayMap collections (subsets)
 * examples: JSON-nice single/few selected records (biosamples, variants ...) etc. to show value encodings...
 
-### How to Use the data
+### How to import the data
 
 The data is in JSON format, you can use MongoDB for easy import and manipulation
 
@@ -21,6 +21,8 @@ You can simply run:
 sh importdb.sh
 ```
 
+### Data manipulation with MongDB shell
+
 To query from MongoDB shell
 ```
 use test
@@ -28,3 +30,9 @@ db.biosamples.find({'attributes.country.values.string_value' : 'United Kingdom'}
 db.biosamples.findOne({'description' : {'$regex' : 'breast'}})
 db.variants.find({variant_type:"DEL", reference_name:"17", start:{$gte:30000000}, end:{$lte:31000000}},{"calls.call_set_id":1})
 ```
+
+### Data manipulation with Python
+
+Two IPython notebook scripts are provided in ./tools/ and you can play with them in Jupyter notebook.
+
+The instruction of Jupyter install can be found [here](https://jupyter.org/install.html)
