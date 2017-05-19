@@ -8,6 +8,7 @@ Structure:
 
 * data: JSON dumps of data from the arraymap2ga4gh conversion of arrayMap collections (subsets)
 * examples: JSON-nice single/few selected records (biosamples, variants ...) etc. to show value encodings...
+* tools: scripts for manipulating the test data and providing e.g. servers side implementations
 
 ### How to import the data
 
@@ -33,6 +34,6 @@ db.variants.find({variant_type:"DEL", reference_name:"17", start:{$gte:30000000}
 
 ### Data manipulation with Python
 
-Two IPython notebook scripts are provided in ./tools/ and you can play with them in Jupyter notebook.
+In the tools directory, IPython/Jupyter notebooks are provided for exploring the datasets and -structures.
 
-The instruction of Jupyter install can be found [here](https://jupyter.org/install.html)
+The instruction for installing _Jupyter_ can be found [here](https://jupyter.org/install.html)
