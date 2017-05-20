@@ -10,12 +10,15 @@ use CGI qw(param);
 use JSON;
 use MongoDB;
 use MongoDB::MongoClient;
+use Data::Dumper;
 
 =pod
 
 Example use, command line:
 
 perl beaconresponse.cgi variants.reference_name=chr9 variants.variant_type=DEL variants.start=20000000 variants.start=21984490 variants.end=21984490 variants.end=25000000 biosample.bio_characteristics.ontology_terms.term_id=NCIT:C3058
+
+perl beaconresponse.cgi variants.reference_name=9 variants.variant_type=DEL variants.start=0 variants.start=21984490 variants.end=21984490 variants.end=150000000 db=dipg_ga4gh varcoll=variants_cnv_grch36 callsetcoll=callsets_cnv_grch36
 
 Example use, web call:
 
@@ -25,35 +28,39 @@ http://arraymap.org/beaconresponse/?variants.reference_name=chr9&variants.varian
 
 #print 'Content-type: text/plain'."\n\n";
 
-my $db                =   'arraymap_ga4gh';
-my $varColl           =   'variants';
-my $sampleColl        =   'biosamples';
-my $varQpar           =   {};
-my $varQ              =   {};
-my $biosQpar          =   {};
-my $biosQ             =   {};
+my $db          =   param('db');
+if ($db !~ /^\w{3,64}$/) { $db = 'arraymap_ga4gh' }
+my $varColl     =   param('varcoll');
+if ($varColl !~ /^\w{3,64}$/) { $varColl = 'variants' }
+my $sampleColl  =   param('samplecoll');
+if ($sampleColl !~ /^\w{3,64}$/) { $sampleColl = 'biosamples' }
+my $callsetColl =   param('callsetcoll');
+if ($callsetColl !~ /^\w{3,64}$/) { $callsetColl = 'callsets' }
+
+my $varQpar     =   {};
+my $varQ        =   {};
+my $biosQpar    =   {};
+my $biosQ       =   {};
 
 # GA4GH variant attributes
 
-$varQpar              =   _getVariantParams();
-$varQpar              =   _normVariantParams($varQpar);
-$varQ                 =   _createVariantQuery($varQpar);
+$varQpar        =   _getVariantParams();
+$varQpar        =   _normVariantParams($varQpar);
+$varQ           =   _createVariantQuery($varQpar);
 
-$biosQpar             =   _getBiosampleParams();
-$biosQ                =   _createBiosampleQuery($biosQpar);
+$biosQpar       =   _getBiosampleParams();
+$biosQ          =   _createBiosampleQuery($biosQpar);
 
 # catching input errors #######################################################
 
 # TODO: expand ...
-
-my $errorMessage      =   _checkParameters($varQpar);
-
-my $counts            =   {};
-my $dbCall;           # recyclable
-
-my $dbconn            =   MongoDB::MongoClient->new()->get_database( $db );
+my $errorM      =   _checkParameters($varQpar);
 
 ###############################################################################
+
+my $counts      =   {};
+my $dbCall;             # recyclable
+my $dbconn      =   MongoDB::MongoClient->new()->get_database( $db );
 
 =pod
 
@@ -62,40 +69,41 @@ The ids of biosamples matching (designated) metadata criteria are retrieved. Thi
 =cut
 
 # getting the number of all biosamples in the collection
-$dbCall               =   $dbconn->run_command({"count" => 'biosamples'});
-$counts->{bs_all}     =   $dbCall->{n};
+$dbCall         =   $dbconn->run_command({"count" => $sampleColl});
+
+$counts->{bs_all}       =   $dbCall->{n};
 
 # getting and  counting the ids of all biosamples which match the biosample query
-$dbCall               =   $dbconn->run_command([
-                            "distinct"  =>  'biosamples',
-                            "key"       =>  'id',
-                            "query"     =>  $biosQ,
-                          ]);
-my $biosampleIds      =   $dbCall->{values};
-$counts->{bs_matched} =   scalar(@{ $biosampleIds });
+$dbCall         =   $dbconn->run_command([
+                      "distinct"  =>  $sampleColl,
+                      "key"       =>  'id',
+                      "query"     =>  $biosQ,
+                    ]);
+my $biosampleIds        =   $dbCall->{values};
+$counts->{bs_matched}   =   scalar(@{ $biosampleIds });
 
 ###############################################################################
 
 # counting all variants in the variant collection
-$dbCall               =   $dbconn->run_command({"count" => 'variants'});
-$counts->{var_all}    =   $dbCall->{n};
+$dbCall         =   $dbconn->run_command({"count" => $varColl});
+$counts->{var_all}      =   $dbCall->{n};
 
 # counting all callsets with any variant
-$dbCall               =   $dbconn->run_command([
-                            "distinct"  =>  'variants',
-                            "key"       =>  'calls.call_set_id',
-                            "query"     =>  {},
-                          ]);
+$dbCall         =   $dbconn->run_command([
+                      "distinct"  =>  $varColl,
+                      "key"       =>  'calls.call_set_id',
+                      "query"     =>  {},
+                    ]);
 $counts->{cs_all}     =   scalar(@{ $dbCall->{values} });
 
 # getting and  counting all callset ids with matching variants
-$dbCall               =   $dbconn->run_command([
-                            "distinct"  =>  'variants',
-                            "key"       =>  'calls.call_set_id',
-                            "query"     =>  $varQ,
-                          ]);
-my $callsetIds        =   $dbCall->{values};
-$counts->{cs_matched} =   scalar(@{ $callsetIds });
+$dbCall         =   $dbconn->run_command([
+                      "distinct"  =>  $varColl,
+                      "key"       =>  'calls.call_set_id',
+                      "query"     =>  $varQ,
+                    ]);
+my $callsetIds          =   $dbCall->{values};
+$counts->{cs_matched}   =   scalar(@{ $callsetIds });
 
 ###############################################################################
 
@@ -104,7 +112,7 @@ $counts->{cs_matched} =   scalar(@{ $callsetIds });
 # in the matched callsets
 
 my $bsQvarQmatchedQ   =   {};
-my @bsQvarQlist       =   {};
+my @bsQvarQlist       =   ();
 my $csBiosampleIds    =   [];
 
 if (grep{ /.../ } keys %{ $biosQ } ) {
@@ -115,11 +123,10 @@ if (grep{ /.../ } keys %{ $varQ } ) {
 }
 
 if (@bsQvarQlist > 1) {
-  $bsQvarQmatchedQ    =   { '$and' => [ @bsQvarQlist ] };
+  $bsQvarQmatchedQ      =   { '$and' => [ @bsQvarQlist ] };
 } elsif (@bsQvarQlist == 1) {
-  $bsQvarQmatchedQ    =   @bsQvarQlist[0];
+  $bsQvarQmatchedQ      =   @bsQvarQlist[0];
 }
-
 # sanity check; if biosample query but no ids => no natch
 if (
   (grep{ /.../ } keys %{ $biosQ } )
@@ -131,11 +138,11 @@ if (
 
 } else {
 
-  $dbCall             =   $dbconn->run_command([
-                            "distinct"  =>  'callsets',
-                            "key"       =>  'biosample_id',
-                            "query"     =>  $bsQvarQmatchedQ,
-                          ]);
+  $dbCall       =   $dbconn->run_command([
+                      "distinct"  =>  $callsetColl,
+                      "key"       =>  'biosample_id',
+                      "query"     =>  $bsQvarQmatchedQ,
+                    ]);
   $csBiosampleIds     =   $dbCall->{values};
 
 }
@@ -145,16 +152,16 @@ $counts->{bs_var_matched} =   scalar(@{ $csBiosampleIds });
 ###############################################################################
 
 # TODO: The response has to be extended and also to be adapted to the "Dataset" option.
-my $beaconResponse    =   {
-  beaconId            =>  "arraymap-beacon",
-  alleleRequest       =>  $varQ,
-  biosampleRequest    =>  $biosQ,
+my $beaconResponse      =   {
+  beaconId              =>  "arraymap-beacon",
+  alleleRequest         =>  $varQ,
+  biosampleRequest      =>  $biosQ,
   datasetAlleleResponses  =>  1 * $counts->{bs_var_matched},
-  frequency           =>  1* (sprintf "%.4f",  $counts->{bs_var_matched} / $counts->{bs_all}),
-  callCount           =>  $counts->{cs_matched},
-  sampleCount         =>  1 * $counts->{bs_var_matched},
-  error               =>  $errorMessage,
-  info                =>  $counts->{cs_matched}.' / '.$counts->{cs_all}.' matched callsets for '.$counts->{var_all}.' variants. Out of '.$counts->{bs_all}.' biosamples in the database, '.$counts->{bs_matched}.' matched the biosample query; of those, '.$counts->{bs_var_matched}.' had the variant.',
+  frequency             =>  1* (sprintf "%.4f",  $counts->{bs_var_matched} / $counts->{bs_all}),
+  callCount             =>  $counts->{cs_matched},
+  sampleCount           =>  1 * $counts->{bs_var_matched},
+  error                 =>  $errorM,
+  info                  =>  'The query was against database "'.$db.'", variant collection "'.$varColl.'". '.$counts->{cs_matched}.' / '.$counts->{cs_all}.' matched callsets for '.$counts->{var_all}.' variants. Out of '.$counts->{bs_all}.' biosamples in the database, '.$counts->{bs_matched}.' matched the biosample query; of those, '.$counts->{bs_var_matched}.' had the variant.',
 };
 
 if (! -t STDIN) {
@@ -286,14 +293,14 @@ sub _checkParameters {
 
   my $qPar            =   $_[0];
 
-  my $errorMessage;
+  my $errorM;
 
   if ($qPar->{start}->[0] !~ /^\d+?$/) {
-    $errorMessage     .=    '"variants.start" did not contain a numeric value. ';
+    $errorM     .=    '"variants.start" did not contain a numeric value. ';
   }
 
   if ($qPar->{reference_name} !~ /^(?:(?:(?:1|2)?\d)|x|y)$/i) {
-    $errorMessage     .=    '"variants.reference_name" did not contain a valid value (e.g. "chr17" "8", "X"). ';
+    $errorM     .=    '"variants.reference_name" did not contain a valid value (e.g. "chr17" "8", "X"). ';
   }
 
   if (
@@ -301,10 +308,10 @@ sub _checkParameters {
   &&
   ($qPar->{alternate_bases} !~ /^[ATGC]+?$/)
   ) {
-    $errorMessage     .=    'There was no valid value for either "variants.variant_type" or "variants.alternate_bases".';
+    $errorM     .=    'There was no valid value for either "variants.variant_type" or "variants.alternate_bases".';
   }
 
-  return $errorMessage;
+  return $errorM;
 
 }
 
