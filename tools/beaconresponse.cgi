@@ -14,42 +14,19 @@ use Data::Dumper;
 
 =pod
 
-Example use, command line:
-
-perl beaconresponse.cgi variants.reference_name=chr9 variants.variant_type=DEL variants.start=20000000 variants.start=21984490 variants.end=21984490 variants.end=25000000 biosample.bio_characteristics.ontology_terms.term_id=NCIT:C3058
-
-perl beaconresponse.cgi variants.reference_name=9 variants.variant_type=DEL variants.start=0 variants.start=21984490 variants.end=21984490 variants.end=150000000 db=dipg_ga4gh varcoll=variants_cnv_grch36 callsetcoll=callsets_cnv_grch36
-
-Example use, web call:
-
-http://arraymap.org/beaconresponse/?variants.reference_name=chr9&variants.variant_type=DEL&variants.start=20000000&variants.start=21984490&variants.end=21984490&variants.end=25000000&biosample.bio_characteristics.ontology_terms.term_id=NCIT:C3058&biosample.bio_characteristics.ontology_terms.term_id=NCIT:C3059
-
+Please see the associated beaconresponse.md
 =cut
 
-#print 'Content-type: text/plain'."\n\n";
-
-my $db          =   param('db');
-if ($db !~ /^\w{3,64}$/) { $db = 'arraymap_ga4gh' }
-my $varColl     =   param('varcoll');
-if ($varColl !~ /^\w{3,64}$/) { $varColl = 'variants' }
-my $sampleColl  =   param('samplecoll');
-if ($sampleColl !~ /^\w{3,64}$/) { $sampleColl = 'biosamples' }
-my $callsetColl =   param('callsetcoll');
-if ($callsetColl !~ /^\w{3,64}$/) { $callsetColl = 'callsets' }
-
-my $varQpar     =   {};
-my $varQ        =   {};
-my $biosQpar    =   {};
-my $biosQ       =   {};
+my $datasetPar  =   _getDatasetParams();
 
 # GA4GH variant attributes
 
-$varQpar        =   _getVariantParams();
+my $varQpar     =   _getVariantParams();
 $varQpar        =   _normVariantParams($varQpar);
-$varQ           =   _createVariantQuery($varQpar);
+my $varQ        =   _createVariantQuery($varQpar);
 
-$biosQpar       =   _getBiosampleParams();
-$biosQ          =   _createBiosampleQuery($biosQpar);
+my $biosQpar    =   _getBiosampleParams();
+my $biosQ       =   _createBiosampleQuery($biosQpar);
 
 # catching input errors #######################################################
 
@@ -60,7 +37,7 @@ my $errorM      =   _checkParameters($varQpar);
 
 my $counts      =   {};
 my $dbCall;             # recyclable
-my $dbconn      =   MongoDB::MongoClient->new()->get_database( $db );
+my $dbconn      =   MongoDB::MongoClient->new()->get_database( $datasetPar->{db} );
 
 =pod
 
@@ -69,13 +46,13 @@ The ids of biosamples matching (designated) metadata criteria are retrieved. Thi
 =cut
 
 # getting the number of all biosamples in the collection
-$dbCall         =   $dbconn->run_command({"count" => $sampleColl});
+$dbCall         =   $dbconn->run_command({"count" => $datasetPar->{samplecoll}});
 
 $counts->{bs_all}       =   $dbCall->{n};
 
 # getting and  counting the ids of all biosamples which match the biosample query
 $dbCall         =   $dbconn->run_command([
-                      "distinct"  =>  $sampleColl,
+                      "distinct"  =>  $datasetPar->{samplecoll},
                       "key"       =>  'id',
                       "query"     =>  $biosQ,
                     ]);
@@ -85,12 +62,12 @@ $counts->{bs_matched}   =   scalar(@{ $biosampleIds });
 ###############################################################################
 
 # counting all variants in the variant collection
-$dbCall         =   $dbconn->run_command({"count" => $varColl});
+$dbCall         =   $dbconn->run_command({"count" => $datasetPar->{varcoll}});
 $counts->{var_all}      =   $dbCall->{n};
 
 # counting all callsets with any variant
 $dbCall         =   $dbconn->run_command([
-                      "distinct"  =>  $varColl,
+                      "distinct"  =>  $datasetPar->{varcoll},
                       "key"       =>  'calls.call_set_id',
                       "query"     =>  {},
                     ]);
@@ -98,7 +75,7 @@ $counts->{cs_all}     =   scalar(@{ $dbCall->{values} });
 
 # getting and  counting all callset ids with matching variants
 $dbCall         =   $dbconn->run_command([
-                      "distinct"  =>  $varColl,
+                      "distinct"  =>  $datasetPar->{varcoll},
                       "key"       =>  'calls.call_set_id',
                       "query"     =>  $varQ,
                     ]);
@@ -139,7 +116,7 @@ if (
 } else {
 
   $dbCall       =   $dbconn->run_command([
-                      "distinct"  =>  $callsetColl,
+                      "distinct"  =>  $datasetPar->{callsetcoll},
                       "key"       =>  'biosample_id',
                       "query"     =>  $bsQvarQmatchedQ,
                     ]);
@@ -161,7 +138,7 @@ my $beaconResponse      =   {
   callCount             =>  $counts->{cs_matched},
   sampleCount           =>  1 * $counts->{bs_var_matched},
   error                 =>  $errorM,
-  info                  =>  'The query was against database "'.$db.'", variant collection "'.$varColl.'". '.$counts->{cs_matched}.' / '.$counts->{cs_all}.' matched callsets for '.$counts->{var_all}.' variants. Out of '.$counts->{bs_all}.' biosamples in the database, '.$counts->{bs_matched}.' matched the biosample query; of those, '.$counts->{bs_var_matched}.' had the variant.',
+  info                  =>  'The query was against database "'.$datasetPar->{db}.'", variant collection "'.$datasetPar->{varcoll}.'". '.$counts->{cs_matched}.' / '.$counts->{cs_all}.' matched callsets for '.$counts->{var_all}.' variants. Out of '.$counts->{bs_all}.' biosamples in the database, '.$counts->{bs_matched}.' matched the biosample query; of those, '.$counts->{bs_var_matched}.' had the variant.',
 };
 
 if (! -t STDIN) {
@@ -177,13 +154,33 @@ print ."\n";
 exit;
 
 
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
+################################################################################
+# SUBs #########################################################################
+################################################################################
 
+sub _getDatasetParams {
+
+  my $qPar      =   {};
+
+  my %defaults  =   (
+    db          =>  'arraymap_ga4gh',
+    varcoll     =>  'variants',
+    samplecoll  =>  'biosamples',
+    callsetcoll =>  'callsets',
+  );
+
+  foreach (keys %defaults) {
+
+    $qPar->{$_} =   param($_);
+    if ($qPar->{$_} !~ /^\w{3,64}$/) { $qPar->{$_} = $defaults{$_} }
+
+  }
+
+  return $qPar;
+
+}
+
+################################################################################
 
 sub _getBiosampleParams {
 
@@ -193,20 +190,18 @@ Atributes not used (yet):
 
 =cut
 
-  my $qPar            =   {};
+  my $qPar      =   {};
 
   foreach (qw(
-
     id
     bio_characteristics.ontology_terms.term_id
-
-  )) { $qPar->{$_}    =   [ param('biosample.'.$_) ] }
+  )) { $qPar->{$_}      =   [ param('biosamples.'.$_) ] }
 
   return $qPar;
 
 }
 
-###############################################################################
+################################################################################
 
 sub _getVariantParams {
 
@@ -223,42 +218,42 @@ Atributes not used (yet):
 
 =cut
 
-  my $qPar            =   {};
+  my $qPar      =   {};
+
+# TODO: Implement alternate_bases as list
 
   foreach (qw(
-
     id
     reference_name
     reference_bases
     alternate_bases
     variant_type
-
-  )) { $qPar->{$_}    =   param('variants.'.$_) }
+  )) { $qPar->{$_}      =   param('variants.'.$_) }
 
   foreach (qw(
-
     start
     end
+  )) { $qPar->{$_}      =   [ sort {$a <=> $b } (param('variants.'.$_)) ] }
 
-  )) { $qPar->{$_}    =   [ sort {$a <=> $b } (param('variants.'.$_)) ] }
+  #print Dumper $qPar;
 
   return $qPar;
 
 }
 
-###############################################################################
+################################################################################
 
 sub _normVariantParams {
 
-  my $qPar            =   $_[0];
+  my $qPar      =   $_[0];
 
   (
     $qPar->{start},
     $qPar->{end}
-  )                   =   _normQueryStartEnd(
-                            $qPar->{start},
-                            $qPar->{end}
-                          );
+  )             =   _normQueryStartEnd(
+                      $qPar->{start},
+                      $qPar->{end}
+                    );
 
   $qPar->{reference_name} =~  s/chr?o?//i;
 
@@ -270,18 +265,20 @@ sub _normVariantParams {
 
 sub _normQueryStartEnd {
 
-  my ($start, $end) =   @_;
+  # A minimum of one start base
+
+  my ($start, $end)     =   @_;
 
   if ($start->[1] !~ /^\d+?$/) { $start->[1] = $start->[0] }
   if ($end->[0]   !~ /^\d+?$/) { $end->[0]   = $start->[1] }
   if ($end->[1]   !~ /^\d+?$/) { $end->[1]   = $end->[0]   }
 
-  $start->[0]         *=  1;
-  $start->[1]         *=  1;
-  $end->[0]           *=  1;
-  $end->[1]           *=  1;
-  $start              =   [sort { $a <=> $b } @$start];
-  $end                =   [sort { $a <=> $b } @$end];
+  $start->[0]   *=  1;
+  $start->[1]   *=  1;
+  $end->[0]     *=  1;
+  $end->[1]     *=  1;
+  $start        =   [sort { $a <=> $b } @$start];
+  $end          =   [sort { $a <=> $b } @$end];
 
   return ($start, $end);
 
@@ -296,11 +293,11 @@ sub _checkParameters {
   my $errorM;
 
   if ($qPar->{start}->[0] !~ /^\d+?$/) {
-    $errorM     .=    '"variants.start" did not contain a numeric value. ';
+    $errorM           .=    '"variants.start" did not contain a numeric value. ';
   }
 
   if ($qPar->{reference_name} !~ /^(?:(?:(?:1|2)?\d)|x|y)$/i) {
-    $errorM     .=    '"variants.reference_name" did not contain a valid value (e.g. "chr17" "8", "X"). ';
+    $errorM           .=    '"variants.reference_name" did not contain a valid value (e.g. "chr17" "8", "X"). ';
   }
 
   if (
@@ -308,7 +305,7 @@ sub _checkParameters {
   &&
   ($qPar->{alternate_bases} !~ /^[ATGC]+?$/)
   ) {
-    $errorM     .=    'There was no valid value for either "variants.variant_type" or "variants.alternate_bases".';
+    $errorM           .=    'There was no valid value for either "variants.variant_type" or "variants.alternate_bases".';
   }
 
   return $errorM;
@@ -364,31 +361,31 @@ The construction of the query object depends on the detected parameters:
 
 sub _createVariantQuery {
 
-  my $qPar            =   $_[0];
-  my $qObj            =   {};
+  my $qPar      =   $_[0];
+  my $qObj      =   {};
 
   if ($qPar->{variant_type} =~ /^D(?:UP)|(?:EL)$/) {
 
-  $qObj               =   {
-    '$and' => [
-      { reference_name  =>  $qPar->{reference_name} },
-      { variant_type  =>  $qPar->{variant_type} },
-      { start         =>  { '$gte'  =>  1 * $qPar->{start}->[0] } },
-      { start         =>  { '$lte'  =>  1 * $qPar->{start}->[1] } },
-      { end           =>  { '$gte'  =>  1 * $qPar->{end}->[0] } },
-      { end           =>  { '$lte'  =>  1 * $qPar->{end}->[1] } },
-    ],
-  };
+    $qObj       =   {
+      '$and'    => [
+        { reference_name        =>  $qPar->{reference_name} },
+        { variant_type          =>  $qPar->{variant_type} },
+        { start =>  { '$gte'  =>  1 * $qPar->{start}->[0] } },
+        { start =>  { '$lte'  =>  1 * $qPar->{start}->[1] } },
+        { end   =>  { '$gte'  =>  1 * $qPar->{end}->[0] } },
+        { end   =>  { '$lte'  =>  1 * $qPar->{end}->[1] } },
+      ],
+    };
 
   } elsif ($qPar->{alternate_bases} =~ /^[ATGC]+?$/) {
 
-  $qObj               =   {
-    '$and' => [
-      { reference_name  =>  $qPar->{reference_name} },
-      { alternate_bases =>  $qPar->{alternate_bases} },
-      { start         =>  1 * $qPar->{start}->[0] },
-    ],
-  };
+    $qObj       =   {
+      '$and' => [
+        { reference_name        =>  $qPar->{reference_name} },
+        { alternate_bases       =>  $qPar->{alternate_bases} },
+        { start =>  1 * $qPar->{start}->[0] },
+      ],
+    };
 
   }
 
