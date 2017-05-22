@@ -1,0 +1,84 @@
+{
+    "alternate_bases": "<DUP>",
+    "calls": [
+        {
+            "call_set_id": "DIPG_CS_CN_0142",
+            "genotype": [
+                ".",
+                "."
+            ],
+            "info": {
+                "segvalue": 0.099768267510894
+            }
+        },
+        {
+            "call_set_id": "DIPG_CS_CN_0620",
+            "genotype": [
+                ".",
+                "."
+            ],
+            "info": {
+                "segvalue": -0.45400942651645
+            }
+        },
+        {
+            "call_set_id": "DIPG_CS_CN_0266",
+            "genotype": [
+                ".",
+                "."
+            ],
+            "info": {
+                "segvalue": -0.398077609546691
+            }
+        },
+        {
+            "call_set_id": "DIPG_CS_CN_0375",
+            "genotype": [
+                ".",
+                "."
+            ],
+            "info": {
+                "segvalue": 0.150329948449119
+            }
+        },
+        {
+            "call_set_id": "DIPG_CS_CN_0328",
+            "genotype": [
+                ".",
+                "."
+            ],
+            "info": {
+                "segvalue": 0.0891056216812055
+            }
+        },
+        {
+            "call_set_id": "DIPG_CS_CN_0901",
+            "genotype": [
+                ".",
+                "."
+            ],
+            "info": {
+                "segvalue": -0.0368
+            }
+        },
+        {
+            "call_set_id": "DIPG_CS_CN_0413",
+            "genotype": [
+                ".",
+                "."
+            ],
+            "info": {
+                "segvalue": 0.0870687157650675
+            }
+        }
+    ],
+    "created": "2017-05-22T10:55:34.753000",
+    "end": 34862262,
+    "id": "DIPG_V_CN_63373",
+    "reference_bases": ".",
+    "reference_name": "21",
+    "start": 34125189,
+    "updated": "2017-05-22T10:56:06.080000",
+    "variant_set_id": "GRCh36",
+    "variant_type": "DUP"
+}
