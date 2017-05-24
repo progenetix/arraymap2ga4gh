@@ -33,6 +33,15 @@ my $biosQ       =   _createBiosampleQuery($biosQpar);
 # TODO: expand ...
 my $errorM      =   _checkParameters($varQpar);
 
+my $queryScope  =   'datasetAlleleResponses';
+my $queryType   =   'alleleRequest';
+if (param('variants.variant_type') =~ /^D(?:UP)|(?:EL)$/i) {
+  $queryType    =   'CNVrequest';
+  $queryScope   =   'datasetCNVresponses';
+  $datasetPar->{varcoll}  =~  s/_alleles_/_cnv_/;
+  $datasetPar->{callsetcoll}  =~  s/_alleles_/_cnv_/;
+}
+
 ###############################################################################
 
 my $counts      =   {};
@@ -111,7 +120,7 @@ if (
   ($counts->{bs_matched} < 1)
 ) {
 
-  $csBiosampleIds     =   [];
+  $csBiosampleIds       =   [];
 
 } else {
 
@@ -131,9 +140,9 @@ $counts->{bs_var_matched} =   scalar(@{ $csBiosampleIds });
 # TODO: The response has to be extended and also to be adapted to the "Dataset" option.
 my $beaconResponse      =   {
   beaconId              =>  "arraymap-beacon",
-  alleleRequest         =>  $varQ,
+  $queryType            =>  $varQ,
   biosampleRequest      =>  $biosQ,
-  datasetAlleleResponses  =>  1 * $counts->{bs_var_matched},
+  $queryScope           =>  1 * $counts->{bs_var_matched},
   frequency             =>  1* (sprintf "%.4f",  $counts->{bs_var_matched} / $counts->{bs_all}),
   callCount             =>  $counts->{cs_matched},
   sampleCount           =>  1 * $counts->{bs_var_matched},
@@ -163,16 +172,25 @@ sub _getDatasetParams {
   my $qPar      =   {};
 
   my %defaults  =   (
-    db          =>  'arraymap_ga4gh',
-    varcoll     =>  'variants',
-    samplecoll  =>  'biosamples',
-    callsetcoll =>  'callsets',
+    varcoll     =>  'variants_alleles',
+    callsetcoll =>  'callsets_alleles',
   );
+
+  $qPar->{samplecoll}   =   param('samplecoll');
+  if ($qPar->{samplecoll} !~ /^\w{3,64}$/) { $qPar->{samplecoll} = 'biosamples' }
+
+  $qPar->{dataset_id}   =   param('dataset_id');
+  if ($qPar->{dataset_id} !~ /^\w{3,64}$/) { $qPar->{dataset_id} = 'arraymap' }
+  $qPar->{db}   =   $qPar->{dataset_id}.'_ga4gh';
+
+  $qPar->{assembly_id}   =   param('assembly_id');
+  if ($qPar->{assembly_id} !~ /^\w{3,64}$/) { $qPar->{assembly_id} = 'GRCh36' }
 
   foreach (keys %defaults) {
 
     $qPar->{$_} =   param($_);
     if ($qPar->{$_} !~ /^\w{3,64}$/) { $qPar->{$_} = $defaults{$_} }
+    $qPar->{$_} .=   '_'.lc($qPar->{assembly_id});
 
   }
 
@@ -288,16 +306,16 @@ sub _normQueryStartEnd {
 
 sub _checkParameters {
 
-  my $qPar            =   $_[0];
+  my $qPar      =   $_[0];
 
   my $errorM;
 
   if ($qPar->{start}->[0] !~ /^\d+?$/) {
-    $errorM           .=    '"variants.start" did not contain a numeric value. ';
+    $errorM     .=    '"variants.start" did not contain a numeric value. ';
   }
 
   if ($qPar->{reference_name} !~ /^(?:(?:(?:1|2)?\d)|x|y)$/i) {
-    $errorM           .=    '"variants.reference_name" did not contain a valid value (e.g. "chr17" "8", "X"). ';
+    $errorM     .=    '"variants.reference_name" did not contain a valid value (e.g. "chr17" "8", "X"). ';
   }
 
   if (
@@ -305,7 +323,7 @@ sub _checkParameters {
   &&
   ($qPar->{alternate_bases} !~ /^[ATGC]+?$/)
   ) {
-    $errorM           .=    'There was no valid value for either "variants.variant_type" or "variants.alternate_bases".';
+    $errorM     .=    'There was no valid value for either "variants.variant_type" or "variants.alternate_bases".';
   }
 
   return $errorM;
@@ -316,12 +334,11 @@ sub _checkParameters {
 
 sub _createBiosampleQuery {
 
-  my $qPar            =   $_[0];
+  my $qPar      =   $_[0];
   my @qList;
 
   foreach my $qKey (keys %{$qPar}) {
 
-    my $thisQobj      =   {};
     my @thisQlist;
 
     foreach (grep{ /.../ } @{ $qPar->{$qKey} } ) {
