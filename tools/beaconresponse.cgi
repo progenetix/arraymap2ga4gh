@@ -8,6 +8,7 @@ use CGI::Carp qw(fatalsToBrowser);
 use CGI qw(param);
 
 use JSON;
+use List::Util qw(min max);
 use MongoDB;
 use MongoDB::MongoClient;
 use Data::Dumper;
@@ -16,6 +17,10 @@ use Data::Dumper;
 
 Please see the associated beaconresponse.md
 =cut
+
+my $versionInfo =   'This Beacon+ implementation is based on a development
+branch of the beacon-team project:
+  https://github.com/ga4gh/beacon-team/pull/94';
 
 my $datasetPar  =   _getDatasetParams();
 
@@ -97,9 +102,9 @@ $counts->{cs_matched}   =   scalar(@{ $callsetIds });
 # which are both fulfilling the biosample metadata query and are listed
 # in the matched callsets
 
-my $bsQvarQmatchedQ   =   {};
-my @bsQvarQlist       =   ();
-my $csBiosampleIds    =   [];
+my $bsQvarQmatchedQ     =   {};
+my @bsQvarQlist         =   ();
+my $csBiosampleIds      =   [];
 
 if (grep{ /.../ } keys %{ $biosQ } ) {
   push(@bsQvarQlist, { biosample_id => { '$in' => $biosampleIds } } );
@@ -148,6 +153,7 @@ my $beaconResponse      =   {
   sampleCount           =>  1 * $counts->{bs_var_matched},
   error                 =>  $errorM,
   info                  =>  'The query was against database "'.$datasetPar->{db}.'", variant collection "'.$datasetPar->{varcoll}.'". '.$counts->{cs_matched}.' / '.$counts->{cs_all}.' matched callsets for '.$counts->{var_all}.' variants. Out of '.$counts->{bs_all}.' biosamples in the database, '.$counts->{bs_matched}.' matched the biosample query; of those, '.$counts->{bs_var_matched}.' had the variant.',
+  version               =>  $versionInfo;
 };
 
 if (! -t STDIN) {
@@ -246,11 +252,15 @@ Atributes not used (yet):
     reference_bases
     alternate_bases
     variant_type
+    start
+    end
+    start_min
+    start_max
+    end_min
+    end_max
   )) { $qPar->{$_}      =   param('variants.'.$_) }
 
   foreach (qw(
-    start
-    end
   )) { $qPar->{$_}      =   [ sort {$a <=> $b } (param('variants.'.$_)) ] }
 
   #print Dumper $qPar;
@@ -265,40 +275,21 @@ sub _normVariantParams {
 
   my $qPar      =   $_[0];
 
-  (
-    $qPar->{start},
-    $qPar->{end}
-  )             =   _normQueryStartEnd(
-                      $qPar->{start},
-                      $qPar->{end}
-                    );
+
+  # creating the intervals for range queries, while checking for right order
+  # this also fills in min = max if only one parameter has been for start or
+  # end, respectively
+  foreach my $side (qw(start end)) {
+
+    my $parKeys =   [ grep{ /^$side(?:_m(?:(?:in)|(?:ax)))?$/ } keys %$qPar ];
+    my $parVals =   [ grep{ /^\d+?$/ } @{ $qPar }{ @$parKeys } ];
+    $qPar->{$side.'_range'}     =  [ min(@$parVals), max(@$parVals) ];
+
+  }
 
   $qPar->{reference_name} =~  s/chr?o?//i;
 
   return $qPar;
-
-}
-
-###############################################################################
-
-sub _normQueryStartEnd {
-
-  # A minimum of one start base
-
-  my ($start, $end)     =   @_;
-
-  if ($start->[1] !~ /^\d+?$/) { $start->[1] = $start->[0] }
-  if ($end->[0]   !~ /^\d+?$/) { $end->[0]   = $start->[1] }
-  if ($end->[1]   !~ /^\d+?$/) { $end->[1]   = $end->[0]   }
-
-  $start->[0]   *=  1;
-  $start->[1]   *=  1;
-  $end->[0]     *=  1;
-  $end->[1]     *=  1;
-  $start        =   [sort { $a <=> $b } @$start];
-  $end          =   [sort { $a <=> $b } @$end];
-
-  return ($start, $end);
 
 }
 
@@ -310,12 +301,23 @@ sub _checkParameters {
 
   my $errorM;
 
-  if ($qPar->{start}->[0] !~ /^\d+?$/) {
-    $errorM     .=    '"variants.start" did not contain a numeric value. ';
+  if (
+    $qPar->{variant_type} =~ /^D(?:UP)|(?:EL)$/
+    &&
+    (
+    $qPar->{start_range}->[0] !~ /^\d+?$/
+    ||
+    $qPar->{end_range}->[0] !~ /^\d+?$/
+    )
+  ) {
+    $errorM     .=    '"variants.start" (and also start_min, start_max)
+    or "variants.end" (and also end_min, end_max)
+    did not contain a numeric value. ';
   }
 
   if ($qPar->{reference_name} !~ /^(?:(?:(?:1|2)?\d)|x|y)$/i) {
-    $errorM     .=    '"variants.reference_name" did not contain a valid value (e.g. "chr17" "8", "X"). ';
+    $errorM     .=    '"variants.reference_name"
+    did not contain a valid value (e.g. "chr17" "8", "X"). ';
   }
 
   if (
@@ -323,7 +325,8 @@ sub _checkParameters {
   &&
   ($qPar->{alternate_bases} !~ /^[ATGC]+?$/)
   ) {
-    $errorM     .=    'There was no valid value for either "variants.variant_type" or "variants.alternate_bases".';
+    $errorM     .=    'There was no valid value for either
+    "variants.variant_type" or "variants.alternate_bases". ';
   }
 
   return $errorM;
@@ -387,10 +390,10 @@ sub _createVariantQuery {
       '$and'    => [
         { reference_name        =>  $qPar->{reference_name} },
         { variant_type          =>  $qPar->{variant_type} },
-        { start =>  { '$gte'  =>  1 * $qPar->{start}->[0] } },
-        { start =>  { '$lte'  =>  1 * $qPar->{start}->[1] } },
-        { end   =>  { '$gte'  =>  1 * $qPar->{end}->[0] } },
-        { end   =>  { '$lte'  =>  1 * $qPar->{end}->[1] } },
+        { start =>  { '$gte'  =>  1 * $qPar->{start_range}->[0] } },
+        { start =>  { '$lte'  =>  1 * $qPar->{start_range}->[1] } },
+        { end   =>  { '$gte'  =>  1 * $qPar->{end_range}->[0] } },
+        { end   =>  { '$lte'  =>  1 * $qPar->{end_range}->[1] } },
       ],
     };
 
