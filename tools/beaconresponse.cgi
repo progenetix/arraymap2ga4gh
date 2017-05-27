@@ -18,9 +18,7 @@ use Data::Dumper;
 Please see the associated beaconresponse.md
 =cut
 
-my $versionInfo =   'This Beacon+ implementation is based on a development
-branch of the beacon-team project:
-  https://github.com/ga4gh/beacon-team/pull/94';
+my $versionInfo =   'This Beacon+ implementation is based on a development branch of the beacon-team project: https://github.com/ga4gh/beacon-team/pull/94';
 
 my $datasetPar  =   _getDatasetParams();
 
@@ -140,6 +138,12 @@ if (
 
 $counts->{bs_var_matched} =   scalar(@{ $csBiosampleIds });
 
+$counts->{frequency}    =   'NA';
+if ($counts->{bs_all} > 0) {
+  $counts->{frequency}  =   sprintf "%.4f",  $counts->{bs_var_matched} / $counts->{bs_all};
+}
+
+
 ###############################################################################
 
 # TODO: The response has to be extended and also to be adapted to the "Dataset" option.
@@ -148,12 +152,12 @@ my $beaconResponse      =   {
   $queryType            =>  $varQ,
   biosampleRequest      =>  $biosQ,
   $queryScope           =>  1 * $counts->{bs_var_matched},
-  frequency             =>  1* (sprintf "%.4f",  $counts->{bs_var_matched} / $counts->{bs_all}),
+  frequency             =>  1 * $counts->{frequency},
   callCount             =>  $counts->{cs_matched},
   sampleCount           =>  1 * $counts->{bs_var_matched},
   error                 =>  $errorM,
   info                  =>  'The query was against database "'.$datasetPar->{db}.'", variant collection "'.$datasetPar->{varcoll}.'". '.$counts->{cs_matched}.' / '.$counts->{cs_all}.' matched callsets for '.$counts->{var_all}.' variants. Out of '.$counts->{bs_all}.' biosamples in the database, '.$counts->{bs_matched}.' matched the biosample query; of those, '.$counts->{bs_var_matched}.' had the variant.',
-  version               =>  $versionInfo;
+  version               =>  $versionInfo,
 };
 
 if (! -t STDIN) {
@@ -310,14 +314,11 @@ sub _checkParameters {
     $qPar->{end_range}->[0] !~ /^\d+?$/
     )
   ) {
-    $errorM     .=    '"variants.start" (and also start_min, start_max)
-    or "variants.end" (and also end_min, end_max)
-    did not contain a numeric value. ';
+    $errorM     .=    '"variants.start" (and also start_min, start_max) or "variants.end" (and also end_min, end_max) did not contain a numeric value. ';
   }
 
   if ($qPar->{reference_name} !~ /^(?:(?:(?:1|2)?\d)|x|y)$/i) {
-    $errorM     .=    '"variants.reference_name"
-    did not contain a valid value (e.g. "chr17" "8", "X"). ';
+    $errorM     .=    '"variants.reference_name" did not contain a valid value (e.g. "chr17" "8", "X"). ';
   }
 
   if (
@@ -325,8 +326,7 @@ sub _checkParameters {
   &&
   ($qPar->{alternate_bases} !~ /^[ATGC]+?$/)
   ) {
-    $errorM     .=    'There was no valid value for either
-    "variants.variant_type" or "variants.alternate_bases". ';
+    $errorM     .=    'There was no valid value for either "variants.variant_type" or "variants.alternate_bases". ';
   }
 
   return $errorM;
