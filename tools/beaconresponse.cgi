@@ -150,6 +150,7 @@ if ($counts->{bs_all} > 0) {
 my $beaconResponse      =   {
   beaconId              =>  "arraymap-beacon",
   $queryType            =>  $varQ,
+  debug_query_string    =>  $ENV{QUERY_STRING},
   biosampleRequest      =>  $biosQ,
   $queryScope           =>  1 * $counts->{bs_var_matched},
   frequency             =>  1 * $counts->{frequency},
