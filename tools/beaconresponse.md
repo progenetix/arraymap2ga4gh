@@ -44,18 +44,14 @@ perl beaconresponse.cgi variants.reference_name=17 variants.alternate_bases=C va
 
 CNV query (defaults do dataset "arraymap") with bio-metadata component:
 
-```
-http://progenetix.org/beacon/query/?variants.reference_name=chr9&variants.variant_type=DEL&variants.start_min=20000000&variants.start_max=21984490&variants.end_min=21984490&variants.end_max=25000000&biosamples.bio_characteristics.ontology_terms.term_id=NCIT:C3058&biosamples.bio_characteristics.ontology_terms.term_id=NCIT:C3059&phenotypes=1
-```
+* http://progenetix.org/beacon/query/?variants.reference_name=chr9&variants.variant_type=DEL&variants.start_min=20000000&variants.start_max=21984490&variants.end_min=21984490&variants.end_max=25000000&biosamples.bio_characteristics.ontology_terms.term_id=NCIT:C3058&biosamples.bio_characteristics.ontology_terms.term_id=NCIT:C3059&phenotypes=1
 
 'CNV query on dataset "dipg":
 
-```
-http://progenetix.org/beacon/query/?variants.reference_name=9&variants.variant_type=DEL&variants.start_min=19000000&variants.start_max=21984490&variants.end_min=21984490&variants.end_max=25000000&biosamples.bio_characteristics.ontology_terms.term_id=PGX:ICDOT:C719&dataset_id=dipg&phenotypes=1
-```
+* http://progenetix.org/beacon/query/?variants.reference_name=9&variants.variant_type=DEL&variants.start_min=19000000&variants.start_max=21984490&variants.end_min=21984490&variants.end_max=25000000&biosamples.bio_characteristics.ontology_terms.term_id=PGX:ICDOT:C719&dataset_id=dipg&phenotypes=1
 
 SNV query on dataset "dipg" with bio-metadata:
 
-```
-http://progenetix.org/beacon/query/?variants.reference_name=17&variants.alternate_bases=C&variants.start=7578535&biosamples.bio_characteristics.ontology_terms.term_id=PGX:ICDOT:C717&dataset_id=dipg&phenotypes=1
-```
+* http://progenetix.org/beacon/query/?variants.reference_name=17&variants.reference_bases=G&variants.alternate_bases=A&variants.start=7577121&biosamples.bio_characteristics.ontology_terms.term_id=PGX:ICDOT:C717&dataset_id=dipg
+
+* http://progenetix.org/beacon/query/?variants.reference_name=17&variants.reference_bases=G&variants.alternate_bases=A&variants.start=7577121&dataset_id=dipg&phenotypes=1
