@@ -63,25 +63,25 @@
             "negated_ontology_terms": [],
             "ontology_terms": [
                 {
-                    "term_id": "NCIT:C3059",
+                    "term_id": "dipg:ncit:C3059",
                     "term_label": "Glioma"
                 },
                 {
-                    "term_id": "SNMI:M-93803",
+                    "term_id": "dipg:snmi:M-93803",
                     "term_label": "Glioma NOS"
                 },
                 {
-                    "term_id": "PGX:ICDOM:93803_3",
+                    "term_id": "dipg:icdom:93803_3",
                     "term_label": "Glioma NOS"
                 },
                 {
-                    "term_id": "PGX:ICDOT:C717",
+                    "term_id": "dipg:icdot:C717",
                     "term_label": "Brainstem"
                 }
             ]
         }
     ],
-    "created": "2017-05-22T10:55:24.127000",
+    "created": "2017-07-05T08:16:12.041000",
     "description": "diffuse intrinsic pontine glioma, paediatric, high grade",
     "external_identifiers": [],
     "id": "DIPG_BS_0324",

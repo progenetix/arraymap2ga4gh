@@ -72,13 +72,13 @@
             }
         }
     ],
-    "created": "2017-05-22T10:55:34.753000",
+    "created": "2017-07-05T08:20:07.936000",
     "end": 34862262,
     "id": "DIPG_V_CN_63373",
     "reference_bases": ".",
     "reference_name": "21",
     "start": 34125189,
-    "updated": "2017-05-22T10:56:06.080000",
+    "updated": "2017-07-05T08:20:34.788000",
     "variant_set_id": "GRCh36",
     "variant_type": "DUP"
 }
