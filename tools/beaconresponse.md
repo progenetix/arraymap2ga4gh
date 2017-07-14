@@ -46,7 +46,7 @@ SNV query on dataset "dipg" with phenotype response:
 
 * http://progenetix.org/beacon/query/?variants.reference_name=17&variants.reference_bases=G&variants.alternate_bases=A&variants.start=7577121&dataset_ids=dipg&phenotypes=1
 
-CNV query on dataset "dipg", with pphenotype response:
+CNV query on dataset "dipg", with phenotype response:
 
 * http://progenetix.org/beacon/query/?variants.reference_name=9&variants.variant_type=DEL&variants.start_min=19000000&variants.start_max=21984490&variants.end_min=21984490&variants.end_max=25000000&dataset_ids=dipg&phenotypes=1
 
