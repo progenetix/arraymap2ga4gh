@@ -37,3 +37,8 @@ db.variants.find({variant_type:"DEL", reference_name:"17", start:{$gte:30000000}
 In the tools directory, IPython/Jupyter notebooks are provided for exploring the datasets and -structures.
 
 The instruction for installing _Jupyter_ can be found [here](https://jupyter.org/install.html)
+
+
+### Perl server CGI & Beacon+ implementation
+
+A Perl based backend and Beacon+ UI can be found at [../beaconplus-server](beaconplus-server) and [../beaconplus-ui](beaconplus-ui).
