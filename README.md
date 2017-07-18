@@ -41,4 +41,4 @@ The instruction for installing _Jupyter_ can be found [here](https://jupyter.org
 
 ### Perl server CGI & Beacon+ implementation
 
-A Perl based backend and Beacon+ UI can be found at [https://github.com/progenetix/beaconplus-server](beaconplus-server) and [https://github.com/progenetix/beaconplus-ui](beaconplus-ui).
+A Perl based backend and Beacon+ UI can be found at [beaconplus-server](https://github.com/progenetix/beaconplus-server) and [beaconplus-ui](https://github.com/progenetix/beaconplus-ui).
